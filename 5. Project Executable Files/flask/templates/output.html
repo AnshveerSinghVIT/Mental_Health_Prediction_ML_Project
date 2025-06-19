@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Screening Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: #6a5acd;
+            --primary-light: #9370db;
+            --primary-dark: #483d8b;
+            --secondary: #4ecdc4;
+            --success: #4CAF50;
+            --danger: #ff6b6b;
+            --warning: #FFC107;
+            --light: #f8f9fa;
+            --dark: #2b2d42;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --card-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.2);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .floating-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.05;
+            background-image: 
+                radial-gradient(circle at 20% 30%, var(--primary) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, var(--secondary) 0%, transparent 20%);
+            animation: float 20s ease-in-out infinite alternate;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(-5%, 5%); }
+            100% { transform: translate(5%, -5%); }
+        }
+        
+        .result-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+            width: 100%;
+            max-width: 900px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .result-card:hover {
+            transform: translateY(-5px) scale(1.005);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            font-size: 2.5rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .result-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(106, 90, 205, 0.1);
+            animation: bounceIn 1s;
+        }
+        
+        .result-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            max-width: 600px;
+        }
+        
+        .result-detail {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+        
+        .recommendations-section {
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            margin-right: 15px;
+            border-radius: 2px;
+        }
+        
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .recommendation-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+            transform: translateY(0);
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .recommendation-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .recommendation-card h3 span {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .recommendation-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        .resources-section {
+            width: 100%;
+            max-width: 1200px;
+            animation: fadeIn 1.2s ease-out;
+        }
+        
+        .resource-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            color: var(--gray);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .resource-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .resource-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .resource-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .resource-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+        
+        .resource-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .resource-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        .resource-link span {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .resource-link:hover span {
+            transform: translateX(3px);
+        }
+        
+        .action-btns {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn-primary:hover::after {
+            opacity: 1;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary);
+            opacity: 0;
+            z-index: 10;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes bounceIn {
+            0%, 20%, 40%, 60%, 80%, 100% {
+                animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            }
+            0% {
+                opacity: 0;
+                transform: scale3d(.3, .3, .3);
+            }
+            20% {
+                transform: scale3d(1.1, 1.1, 1.1);
+            }
+            40% {
+                transform: scale3d(.9, .9, .9);
+            }
+            60% {
+                opacity: 1;
+                transform: scale3d(1.03, 1.03, 1.03);
+            }
+            80% {
+                transform: scale3d(.97, .97, .97);
+            }
+            100% {
+                opacity: 1;
+                transform: scale3d(1, 1, 1);
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .result-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .result-text {
+                font-size: 1.3rem;
+            }
+            
+            .recommendations-grid,
+            .resource-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-btns {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-bg"></div>
+    
+    <div class="main-container">
+        <h1 class="animate__animated animate__fadeIn">Your Mental Health Assessment Results</h1>
+        
+        <div class="result-card">
+            <div class="result-content">
+                {% if prediction == 1 %}
+                    <div class="result-icon">⚠️</div>
+                    <h2 class="result-text">Our Assessment Suggests You Might Benefit From Support</h2>
+                    <p class="result-detail">Based on your responses, professional mental health support could be helpful. Remember, seeking help is a sign of strength.</p>
+                {% else %}
+                    <div class="result-icon">✅</div>
+                    <h2 class="result-text">Our Assessment Suggests You're Doing Well</h2>
+                    <p class="result-detail">Your responses indicate good mental health. Continue practicing self-care and check in with yourself regularly.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="recommendations-section">
+            <h2 class="section-title">Personalized Recommendations</h2>
+            <div class="recommendations-grid">
+                {% if prediction == 1 %}
+                    <div class="recommendation-card animate__animated animate__fadeInUp">
+                        <h3><span>👨‍⚕️</span> Professional Support</h3>
+                        <p>Consider scheduling an appointment with a licensed mental health professional who can provide personalized care.</p>
+                    </div>
+                    <div class="recommendation-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+                        <h3><span>🧘</span> Mindfulness Practice</h3>
+                        <p>Begin a daily mindfulness or meditation routine to help manage stress and improve emotional regulation.</p>
+                    </div>
+                    <div class="recommendation-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+                        <h3><span>🛌</span> Sleep Hygiene</h3>
+                        <p>Establish a consistent sleep schedule and create a relaxing bedtime routine to improve sleep quality.</p>
+                    </div>
+                    <div class="recommendation-card animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+                        <h3><span>🏃</span> Physical Activity</h3>
+                        <p>Incorporate regular exercise into your routine, even short walks can significantly impact mental wellbeing.</p>
+                    </div>
+                    <div class="recommendation-card animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
+                        <h3><span>🤝</span> Social Connection</h3>
+                        <p>Reach out to trusted friends or family members and share how you're feeling. You don't have to go through this alone.</p>
+                    </div>
+                    <div class="recommendation-card animate__animated animate__fadeInUp" style="animation-delay: 0.5s">
+                        <h3><span>📝</span> Journaling</h3>
+                        <p>Try keeping a daily journal to process emotions and identify patterns in your thoughts and feelings.</p>
+                    </div>
+                {% else %}
+                    <div class="recommendation-card animate__animated animate__fadeInUp">
+                        <h3><span>💪</span> Maintain Your Routine</h3>
+                        <p>Continue with the healthy habits that are contributing to your good mental health.</p>
+                    </div>
+                    <div class="recommendation-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+                        <h3><span>🧠</span> Mental Health Awareness</h3>
+                        <p>Educate yourself about mental health to better understand and support others who may be struggling.</p>
+                    </div>
+                    <div class="recommendation-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+                        <h3><span>❤️</span> Check In Regularly</h3>
+                        <p>Make a habit of regularly assessing your mental wellbeing, just as you would your physical health.</p>
+                    </div>
+                    <div class="recommendation-card animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+                        <h3><span>🤗</span> Support Others</h3>
+                        <p>Use your emotional resources to support friends or family members who might need someone to talk to.</p>
+                    </div>
+                    <div class="recommendation-card animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
+                        <h3><span>📚</span> Continue Learning</h3>
+                        <p>Explore resources about mental resilience and emotional intelligence to further strengthen your wellbeing.</p>
+                    </div>
+                    <div class="recommendation-card animate__animated animate__fadeInUp" style="animation-delay: 0.5s">
+                        <h3><span>🔄</span> Stay Open</h3>
+                        <p>Remember it's okay to seek help if your situation changes - mental health fluctuates for everyone.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="resources-section">
+            <h2 class="section-title">Helpful Resources</h2>
+            <div class="resource-tabs">
+                <button class="tab-btn active">Global</button>
+                <button class="tab-btn">Apps</button>
+                <button class="tab-btn">Reading</button>
+            </div>
+            <div class="resource-cards">
+                <div class="resource-card animate__animated animate__fadeIn">
+                    <div class="resource-icon">🌐</div>
+                    <h3>WHO Mental Health Resources</h3>
+                    <p>Comprehensive global directory of mental health services and information.</p>
+                    <a href="https://www.who.int/mental_health/evidence/atlas/en/" target="_blank" class="resource-link">
+                        Visit Resource <span>→</span>
+                    </a>
+                </div>
+                <div class="resource-card animate__animated animate__fadeIn" style="animation-delay: 0.1s">
+                    <div class="resource-icon">🆘</div>
+                    <h3>Crisis Support Worldwide</h3>
+                    <p>Immediate help for those in crisis, with international hotlines and centers.</p>
+                    <a href="https://www.iasp.info/resources/Crisis_Centres/" target="_blank" class="resource-link">
+                        Find Help <span>→</span>
+                    </a>
+                </div>
+                <div class="resource-card animate__animated animate__fadeIn" style="animation-delay: 0.2s">
+                    <div class="resource-icon">📱</div>
+                    <h3>Mental Health Apps</h3>
+                    <p>Curated selection of apps for meditation, mood tracking, and therapy.</p>
+                    <a href="https://www.psycom.net/25-best-mental-health-apps" target="_blank" class="resource-link">
+                        Explore Apps <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-btns">
+            <a href="/" class="btn btn-primary animate__animated animate__fadeIn">Start New Assessment</a>
+         
+        </div>
+    </div>
+
+</body>
+</html>

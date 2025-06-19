@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: #6a5acd;
+            --secondary: #483d8b;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 650px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+            border: 3px solid var(--primary);
+        }
+        
+        .character {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 60px;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            height: 20px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #6a5acd, #9370db);
+            width: {{ progress }}%;
+            transition: width 0.5s ease;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,0.3) 0%,
+                rgba(255,255,255,0.1) 50%,
+                rgba(255,255,255,0.3) 100%
+            );
+            background-size: 200% 200%;
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 16px;
+            color: #6c757d;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        
+        h2 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            font-size: 24px;
+        }
+        
+        .question-text {
+            font-size: 22px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .question-emoji {
+            font-size: 28px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        .answer-options {
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .option {
+            display: block;
+            margin-bottom: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateX(0);
+        }
+        
+        .option:hover {
+            transform: translateX(10px);
+        }
+        
+        .option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .option-label {
+            display: block;
+            padding: 18px 25px;
+            background-color: var(--light);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid #dee2e6;
+            font-size: 18px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+        }
+        
+        .option:hover .option-label {
+            background-color: #e2e6ea;
+            border-color: #adb5bd;
+        }
+        
+        .option input:checked ~ .option-label {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--secondary);
+            box-shadow: 0 5px 15px rgba(106, 90, 205, 0.3);
+        }
+        
+        .range-container {
+            width: 100%;
+            margin: 30px 0;
+        }
+        
+        .range-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 12px;
+            border-radius: 6px;
+            background: #d3d3d3;
+            outline: none;
+            margin: 20px 0;
+        }
+        
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .range-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            background: var(--secondary);
+        }
+        
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .range-labels span {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .range-labels span:first-child {
+            align-items: flex-start;
+        }
+        
+        .range-labels span:last-child {
+            align-items: flex-end;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+            font-weight: 500;
+            margin-top: 20px;
+            box-shadow: 0 5px 20px rgba(106, 90, 205, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(106, 90, 205, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn:hover::after {
+            opacity: 1;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        
+        .emoji-rating {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        .emoji-option {
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        
+        .emoji-option:hover {
+            transform: scale(1.1);
+            opacity: 1;
+            background-color: rgba(106, 90, 205, 0.1);
+        }
+        
+        .emoji-option.selected {
+            transform: scale(1.2);
+            opacity: 1;
+            background-color: rgba(106, 90, 205, 0.2);
+        }
+        
+        .emoji {
+            font-size: 40px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .emoji-option.selected .emoji {
+            transform: scale(1.3);
+        }
+        
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: var(--light);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid #dee2e6;
+        }
+        
+        .checkbox-option:hover {
+            background-color: #e2e6ea;
+            border-color: #adb5bd;
+        }
+        
+        .checkbox-option input[type="checkbox"] {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .checkbox-option.selected {
+            background-color: rgba(106, 90, 205, 0.1);
+            border-color: var(--primary);
+        }
+        
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .question-text {
+                font-size: 20px;
+            }
+            
+            .option-label {
+                padding: 15px 20px;
+            }
+            
+            .emoji-rating {
+                flex-wrap: wrap;
+            }
+            
+            .emoji-option {
+                flex: 0 0 45%;
+                margin-bottom: 15px;
+            }
+        }
+        
+      
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .character {
+            animation: bounce 3s infinite;
+        }
+        
+       
+        .sensitive-question {
+            background-color: #fff9f9;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid var(--danger);
+            margin-bottom: 30px;
+        }
+        
+        .sensitive-question .question-text {
+            color: #dc3545;
+        }
+        
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+      
+        <div class="character">
+            {% set characters = ['🧠', '🤗', '🤔', '👩‍⚕️', '👨‍⚕️', '🌈', '🦋'] %}
+            {{ characters | random }}
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+            <div class="progress-text">Question {{ current_question }} of {{ total_questions }} ({{ "%.0f"|format(progress) }}%)</div>
+        </div>
+        
+        <h2>Mental Health Check</h2>
+        
+        {% if question.get('sensitive') %}
+        
+            <div class="question-text">
+                {% if question.get('emoji') %}<span class="question-emoji">{{ question.emoji }}</span>{% endif %}
+                {{ question.text }}
+            </div>
+        
+        {% else %}
+        <div class="question-text">
+            {% if question.get('emoji') %}<span class="question-emoji">{{ question.emoji }}</span>{% endif %}
+            {{ question.text }}
+        </div>
+        {% endif %}
+        
+        <form action="/assessment/answer" method="POST">
+            {% if question.type == "select" %}
+                <div class="answer-options">
+                    {% for option in question.options %}
+                        <label class="option">
+                            <input type="radio" name="answer" value="{{ option }}" required>
+                            <span class="option-label">{{ option }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            {% elif question.type == "range" %}
+                <div class="range-container">
+                    <input type="range" class="range-slider" name="answer" 
+                           min="{{ question.min }}" max="{{ question.max }}" 
+                           value="{{ (question.min + question.max) // 2 }}" required>
+                    <div class="range-labels">
+                        <span>{{ question.labels[0] if question.labels else question.min }}</span>
+                        <span>{{ question.labels[1] if question.labels and question.labels|length > 1 else '' }}</span>
+                    </div>
+                </div>
+            {% elif question.type == "number" %}
+                <input type="number" name="answer" 
+                       min="{{ question.min }}" max="{{ question.max }}" 
+                       required style="width: 100%; padding: 15px; font-size: 16px; border: 2px solid #ddd; border-radius: 10px;">
+            {% elif question.type == "emoji" %}
+                <div class="emoji-rating" id="emoji-rating">
+                    {% for option in question.options %}
+                        <div class="emoji-option" onclick="selectEmoji(this, '{{ option.split(' ')[0] }}')">
+                            <div class="emoji">{{ option.split(' ')[0] }}</div>
+                            <div>{{ ' '.join(option.split(' ')[1:]) }}</div>
+                        </div>
+                    {% endfor %}
+                    <input type="hidden" name="answer" id="emoji-value" required>
+                </div>
+            {% elif question.type == "checkbox" %}
+                <div class="answer-options">
+                    {% for option in question.options %}
+                        <label class="checkbox-option" onclick="toggleCheckbox(this)">
+                            <input type="checkbox" name="answer" value="{{ option }}">
+                            <span>{{ option }}</span>
+                        </label>
+                    {% endfor %}
+                    <input type="hidden" name="answer" id="checkbox-values" required>
+                </div>
+            {% endif %}
+            
+            <button type="submit" class="btn pulse">Continue</button>
+        </form>
+    </div>
+
+    <script>
+        
+document.querySelectorAll('input[type="range"]').forEach(range => {
+    range.addEventListener('input', function() {
+        const value = parseInt(this.value);
+        const min = parseInt(this.min);
+        const max = parseInt(this.max);
+        
+        if (value < min) this.value = min;
+        if (value > max) this.value = max;
+    });
+});
+
+
+document.querySelectorAll('select').forEach(select => {
+    select.addEventListener('change', function() {
+        if (!this.value) {
+            this.classList.add('invalid');
+        } else {
+            this.classList.remove('invalid');
+        }
+    });
+});
+       
+        function selectEmoji(element, value) {
+            document.querySelectorAll('.emoji-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            document.getElementById('emoji-value').value = value;
+        }
+        
+      
+        function toggleCheckbox(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                element.classList.add('selected');
+            } else {
+                element.classList.remove('selected');
+            }
+            
+          
+            const checkedValues = Array.from(document.querySelectorAll('.checkbox-option input[type="checkbox"]:checked'))
+                                      .map(cb => cb.value)
+                                      .join(',');
+            document.getElementById('checkbox-values').value = checkedValues;
+        }
+        
+       
+       
+      
+        const character = document.querySelector('.character');
+        setInterval(() => {
+            character.style.animation = 'none';
+            void character.offsetWidth; 
+            character.style.animation = 'bounce 3s infinite';
+        }, 10000);
+    </script>
+</body>
+</html>

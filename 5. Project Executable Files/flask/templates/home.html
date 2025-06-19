@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Moments | Mental Health Screening</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6a5acd;
+            --primary-light: #9b8eff;
+            --primary-dark: #483d8b;
+            --secondary: #ff7e5f;
+            --secondary-light: #ff9e7d;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --darker: #1a252f;
+            --success: #2ecc71;
+            --info: #3498db;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-reverse: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+       
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        
+    
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+    
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+    
+        .gradient-text {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+   
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 5%;
+            z-index: 1000;
+            transition: all 0.4s ease;
+        }
+        
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 5%;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark);
+            text-decoration: none;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+            position: relative;
+        }
+        
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+      
+        .hero {
+            padding: 180px 5% 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #555;
+        }
+        
+      
+        .container {
+            background-color: white;
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: 40px auto;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+        
+    
+        .section {
+            padding: 80px 5%;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+  
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .about-image img {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .about-image img:hover {
+            transform: translateY(-10px) rotate(2deg);
+        }
+        
+     
+        .btn {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 18px 55px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(106, 90, 205, 0.3);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            text-align: center;
+            z-index: 1;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(106, 90, 205, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-reverse);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: none;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+     
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+        
+        .feature {
+            padding: 30px 25px;
+            border-radius: 20px;
+            transition: all 0.4s ease;
+            text-align: center;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            background: var(--gradient);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .feature:hover .feature-icon {
+            transform: rotate(15deg) scale(1.1);
+            box-shadow: 0 10px 20px rgba(106, 90, 205, 0.3);
+        }
+        
+        .feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .feature p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        
+        .floating {
+            position: absolute;
+            z-index: 1;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .shape-1 {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, var(--primary-light), transparent);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 10%;
+            left: 5%;
+            opacity: 0.3;
+            animation-delay: 0s;
+        }
+        
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, var(--secondary-light), transparent);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            bottom: 10%;
+            right: 5%;
+            opacity: 0.3;
+            animation-delay: 2s;
+        }
+        
+        .shape-3 {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #ffd166, transparent);
+            border-radius: 50% 50% 20% 80% / 60% 40% 60% 40%;
+            top: 40%;
+            right: 15%;
+            opacity: 0.2;
+            animation-delay: 4s;
+        }
+        
+      
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--gradient);
+            transform: translateY(-3px);
+        }
+        
+       
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .container {
+                padding: 40px;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                margin-top: 40px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.5s ease;
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 20px 0;
+            }
+            
+            .nav-links a {
+                font-size: 1.2rem;
+            }
+            
+            .hero {
+                padding: 150px 5% 80px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .container {
+                padding: 30px;
+                margin: 20px auto;
+            }
+            
+            .btn {
+                padding: 15px 40px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+        }
+        
+        .cursor-follower {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            background: rgba(106, 90, 205, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: multiply;
+            transition: transform 0.1s ease;
+        }
+        
+        /* Animated background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(106, 90, 205, 0.05);
+            filter: blur(60px);
+        }
+        
+        /* Assessment modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.4s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+        
+        .assessment-question {
+            margin-bottom: 30px;
+        }
+        
+        .assessment-question h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+        }
+        
+        .option.selected {
+            border-color: var(--primary);
+            background: rgba(106, 90, 205, 0.1);
+        }
+        
+        .option input {
+            margin-right: 15px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: var(--gradient);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="animated-bg">
+        <div class="bg-circle" style="width: 600px; height: 600px; top: -100px; left: -100px;"></div>
+        <div class="bg-circle" style="width: 800px; height: 800px; bottom: -200px; right: -200px;"></div>
+        <div class="bg-circle" style="width: 400px; height: 400px; top: 30%; right: 20%;"></div>
+    </div>
+    
+ 
+    <div class="cursor-follower"></div>
+    
+    
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/2810/2810334.png" alt="Mindful Moments Logo">
+                <span class="gradient-text">Mindful Moments</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#about"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="#" id="predict-link"><i class="fas fa-brain"></i> Predict</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+            
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </nav>
+    
+    
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="gradient-text animate_animated animate_fadeInDown">Your Mental Health Matters</h1>
+            <p class="animate_animated animatefadeIn animate_delay-1s">Take the first step towards better mental well-being with our interactive assessment</p>
+             
+                <a href="/assessment/start" id="start-assessment-2" class="btn animate_animated animatepulse animate_infinite">Start Assessment Now</a>
+           
+        </div>
+        
+       
+        <div class="floating shape-1"></div>
+        <div class="floating shape-2"></div>
+        <div class="floating shape-3"></div>
+    </section>
+    
+
+    <main>
+        <div class="container glass">
+            <img src="https://cdn-icons-png.flaticon.com/512/2810/2810334.png" alt="Mental Health Logo" class="logo" style="width: 120px; margin-bottom: 20px;">
+            <h1 style="margin-bottom: 30px;">Welcome to <span class="gradient-text">Mindful Moments</span></h1>
+            <p style="margin-bottom: 40px; font-size: 1.1rem;">Our interactive mental health check-up helps you understand your well-being through simple, thoughtful questions. It's like having a compassionate conversation with yourself, guided by professional insights.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                    <h3>Private & Secure</h3>
+                    <p>Your responses are completely confidential and protected with encryption.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-clock"></i></div>
+                    <h3>Just 5 Minutes</h3>
+                    <p>A quick assessment that fits into even the busiest schedules.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                    <h3>Global Support</h3>
+                    <p>Resources and help available no matter where you are in the world.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-child"></i></div>
+                    <h3>All Ages</h3>
+                    <p>Friendly for teens, adults, and seniors with age-appropriate questions.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="/assessment/start" id="start-assessment-2" class="btn animate_animated animatepulse animate_infinite">Start Assessment Now</a>
+            </div>
+        </div>
+        
+        
+        <section class="section" id="about">
+    <div class="section-title">
+        <h2>About Mindful Moments</h2>
+        <p>Our mission is to make mental health support accessible, approachable, and effective for everyone</p>
+    </div>
+    
+    <div class="about-content">
+        <div class="about-text">
+            <h3 style="font-size: 1.8rem; margin-bottom: 20px; color: var(--dark);">Who We Are</h3>
+            <p style="margin-bottom: 20px; color: #555;">Mindful Moments was founded by a team of mental health professionals and technologists who saw the need for a more accessible way to help people understand and improve their mental well-being.</p>
+            <p style="margin-bottom: 20px; color: #555;">We combine evidence-based psychological assessments with user-friendly technology to create tools that are both scientifically valid and easy to use.</p>
+            <p style="margin-bottom: 30px; color: #555;">Our platform is designed to help you gain insights into your mental health, provide personalized recommendations, and connect you with resources when needed.</p>
+            
+            <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: var(--dark);">Our Team</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <h4 style="margin-bottom: 5px; color: var(--primary);">Shagun Khandelwal</h4>
+                    <p style="color: #666; font-size: 0.9rem;">23BIT0247</p>
+                </div>
+                <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <h4 style="margin-bottom: 5px; color: var(--primary);">Anshveer Singh</h4>
+                    <p style="color: #666; font-size: 0.9rem;">23BCE0703</p>
+                </div>
+                <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <h4 style="margin-bottom: 5px; color: var(--primary);">Malhaar Pranavkumar Barot</h4>
+                    <p style="color: #666; font-size: 0.9rem;">23BIT0049</p>
+                </div>
+                <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <h4 style="margin-bottom: 5px; color: var(--primary);">Kartikey Choudhary</h4>
+                    <p style="color: #666; font-size: 0.9rem;">23BIT0085</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        
+  
+        <section class="section" id="contact" style="background: rgba(106, 90, 205, 0.03);">
+            <div class="section-title">
+                <h2>Get In Touch</h2>
+                <p>We'd love to hear from you! Reach out with questions, feedback, or partnership opportunities</p>
+            </div>
+            
+            <div class="container" style="max-width: 800px;">
+                <form id="contact-form" style="display: grid; gap: 20px;">
+                    <div style="display: grid; gap: 20px; grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <label for="name" style="display: block; margin-bottom: 8px; font-weight: 500;">Your Name</label>
+                            <input type="text" id="name" style="width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ddd; transition: all 0.3s ease;" required>
+                        </div>
+                        <div>
+                            <label for="email" style="display: block; margin-bottom: 8px; font-weight: 500;">Email Address</label>
+                            <input type="email" id="email" style="width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ddd; transition: all 0.3s ease;" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="subject" style="display: block; margin-bottom: 8px; font-weight: 500;">Subject</label>
+                        <input type="text" id="subject" style="width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ddd; transition: all 0.3s ease;" required>
+                    </div>
+                    <div>
+                        <label for="message" style="display: block; margin-bottom: 8px; font-weight: 500;">Message</label>
+                        <textarea id="message" rows="5" style="width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ddd; transition: all 0.3s ease;" required></textarea>
+                    </div>
+                    <button type="submit" class="btn" style="justify-self: center; margin-top: 20px;">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    
+    
+    <script>
+      
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('toggle');
+        });
+        
+   
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+        
+
+        const cursorFollower = document.querySelector('.cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursorFollower.style.left = e.clientX + 'px';
+            cursorFollower.style.top = e.clientY + 'px';
+        });
+        
+      
+        document.addEventListener('click', (e) => {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = e.clientX + 'px';
+            sparkle.style.top = e.clientY + 'px';
+            document.body.appendChild(sparkle);
+            
+          
+            const size = Math.random() * 10 + 5;
+            sparkle.style.width = size + 'px';
+            sparkle.style.height = size + 'px';
+            
+          
+            const colors = ['#6a5acd', '#8a6eff', '#ff7e5f', '#ff9e7d'];
+            sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+           
+            const animationDuration = Math.random() * 0.5 + 0.5;
+            sparkle.style.transition = all ${animationDuration}s ease-out;
+            sparkle.style.opacity = '0.8';
+            sparkle.style.transform = translate(-50%, -50%) scale(${Math.random() * 2 + 1});
+            
+           
+            setTimeout(() => {
+                sparkle.style.opacity = '0';
+                sparkle.style.transform = translate(-50%, -50%) scale(0);
+                setTimeout(() => {
+                    sparkle.remove();
+                }, animationDuration * 1000);
+            }, 50);
+        });
+        
+      
+        
+      
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.feature, .container');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+     
+        document.querySelectorAll('.feature, .container').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>
