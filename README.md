@@ -92,9 +92,9 @@ Our dataset is survey-based, collected from open mental health-related sources, 
 ## 📬 Contact
 
 For any queries or suggestions, feel free to reach out to any team member via GitHub or Emails as listed below:
-Shagun Khandelwal: shagun.khandelwal2023@vitstudent.ac.in
-Anshveer Singh: anshveer.singh2023@vitstudent.ac.in
-Malhaar Pranavkumar Barot: malhaar.pranavkumar2023@vitstudent.ac.in
-Kartikey Choudhary: kartikey.choudhary2023@vitstudent.ac.in
+- Shagun Khandelwal: shagun.khandelwal2023@vitstudent.ac.in
+- Anshveer Singh: anshveer.singh2023@vitstudent.ac.in
+- Malhaar Pranavkumar Barot: malhaar.pranavkumar2023@vitstudent.ac.in
+- Kartikey Choudhary: kartikey.choudhary2023@vitstudent.ac.in
 
 ---
