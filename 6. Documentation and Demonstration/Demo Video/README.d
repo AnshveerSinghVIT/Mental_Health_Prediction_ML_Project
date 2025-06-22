@@ -1,10 +1,13 @@
 ## 📽️ Demo Video
-Drive Link :
+
+**🎬 Drive Link (High Quality)**  
 ```bash
 https://drive.google.com/file/d/1-ui70nAYwWPVB_Gxl-BiDmLoTta7TY5O/view?usp=sharing
 ```
-Youtube Link:
+
+**📺 YouTube Link (Compressed)**  
 ```bash
 https://www.youtube.com/watch?v=gSvXN2rxGD0
 ```
-Note: Choose drive link for higher quality.
+
+> 💡 Note: Choose the Drive link for better video clarity.
